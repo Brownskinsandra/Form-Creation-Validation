@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("registration-form");
     const feedbackDiv = document.getElementById("form-feedback");
 
-    // Form Submission and Event Prevention
+    // Form Submission Event
     form.addEventListener("submit", (event) => {
         event.preventDefault(); // Prevent form submission
 
@@ -12,7 +12,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
 
-        // Validation Logic
+        // Validate inputs
+        const { isValid, messages } = validateInputs(username, email, password);
+
+        // Display feedback
+        displayFeedback(isValid, messages);
+    });
+
+    /**
+     * Validates the user inputs.
+     * @param {string} username - The username input.
+     * @param {string} email - The email input.
+     * @param {string} password - The password input.
+     * @returns {Object} An object containing isValid (boolean) and messages (array of strings).
+     */
+    function validateInputs(username, email, password) {
         let isValid = true;
         const messages = [];
 
@@ -34,7 +48,15 @@ document.addEventListener("DOMContentLoaded", () => {
             messages.push("Password must be at least 8 characters long.");
         }
 
-        // Displaying Feedback
+        return { isValid, messages };
+    }
+
+    /**
+     * Displays feedback to the user.
+     * @param {boolean} isValid - Whether the input is valid.
+     * @param {string[]} messages - Validation messages to display.
+     */
+    function displayFeedback(isValid, messages) {
         feedbackDiv.style.display = "block";
 
         if (isValid) {
@@ -44,5 +66,5 @@ document.addEventListener("DOMContentLoaded", () => {
             feedbackDiv.innerHTML = messages.join("<br>");
             feedbackDiv.style.color = "#dc3545"; // Red color for errors
         }
-    });
+    }
 });
